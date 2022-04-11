@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="listaTelefonica">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.js"></script>
+    <!-- links -->
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+   
+    <title>Lista Telefonica</title>
+</head>
+<body ng-controller="listaTelefonicaCtrl" >
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid">
+            
+            <h4 ng-bind="app"></h4>
+            <table class="table table-hover rounded">
+                <tr>
+                    <th></th> 
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Operadora</th>
+                    <th></th>
+                </tr>
+                <tr ng-class="{'selecionado' : contato.selecionado}" ng-repeat="contato in contatos">
+                    <td hidden>{{contato.id}}</td>
+                    <td><input type="checkbox" ng-model="contato.selecionado"></td>
+                    <td>{{contato.nome}}</td>
+                    <td>{{contato.telefone}}</td>
+                    <td ng-if="!contato.operadora"></td>
+                    <td ng-if="contato.operadora">{{contato.operadora.nome}} ({{contato.operadora.codigo}})</td>
+                    <td><div style="width: 30px; height: 30px; " ng-style="{'background-color': contato.cor}"></div></td>
+                </tr>
+            </table>
+
+            <br/>
+            {{contato}}
+            <input class="form-control form-control-sm" type="text" placeholder="Nome" ng-model="contato.nome">
+            <input class="form-control form-control-sm" type="text"  placeholder ="Telefone" ng-model="contato.telefone">
+            <select class="form-control form-control-sm " ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy: 'nome':reverse">
+                <option value="">Selecione uma operadora</option>
+            </select>
+            <button class="btn btn-primary btn-sm"><input type="color" style="width: 30px; height: 30px;"></button>
+            
+            <br/>
+            <button class="btn btn-success " type="submit" ng-disabled="!contato.nome || !contato.telefone" ng-click="adicionarContato(contato)">Salvar Contato</button>
+            <button class="btn btn-danger glyphicon glyphicon-trash" ng-disabled="!isContatoSelecionado(contatos)" ng-click="deletarContatos(contatos)"></button>
+            
+        </div>
+    </div>
+</body>
+</html>
