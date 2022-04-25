@@ -22,7 +22,7 @@
         <div class="container-fluid">
             
             <h4 ng-bind="app"></h4>
-            <table class="table table-hover rounded">
+            <table class="table table-hover rounded" ng-show="contatos.length > 0">
                 <tr>
                     <th></th> 
                     <th>Nome</th>
@@ -42,19 +42,28 @@
             </table>
 
             <br/>
-            {{contato}}
-            <input class="form-control form-control-sm" type="text" placeholder="Nome" ng-model="contato.nome">
-            <input class="form-control form-control-sm" type="text"  placeholder ="Telefone" ng-model="contato.telefone">
-            <select class="form-control form-control-sm " ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy: 'nome':reverse">
-                <option value="">Selecione uma operadora</option>
-            </select>
-            <button class="btn btn-primary btn-sm"><input type="color" style="width: 30px; height: 30px;"></button>
-            
+
+            <form name="contatoForm">
+                <input class="form-control form-control-sm" name="nome" type="text" placeholder="Nome" ng-model="contato.nome" ng-required="true" ng-minlength="5" ng-maxlength="40" required>    
+                <input class="form-control form-control-sm" name="telefone" type="text"  placeholder ="Telefone" ng-model="contato.telefone" ng-required="true" ng-minlength="8" ng-maxlength="20" ng-pattern="/^\d{4,5}-{4}$/" required>
+                <select class="form-control form-control-sm " name="operadora" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy: 'nome':reverse" ng-required="true" required>
+                    <option value="">Selecione uma operadora</option>
+                </select>
+                
+            </form>
+
+            <div ng-show="contatoForm.nome.$invalid && contatoForm.nome.$dirty" class="alertaCadastro">Preencha o nome corretamente</div>
+            <div ng-show="contatoForm.telefone.$invalid && contatoForm.telefone.$dirty" class="alertaCadastro">Preencha o telefone corretamente</div>
+            <div ng-show="contatoForm.operadora.$invalid && contatoForm.operadora.$dirty" class="alertaCadastro">Selecione uma operadora</div>
+                        
             <br/>
-            <button class="btn btn-success " type="submit" ng-disabled="!contato.nome || !contato.telefone" ng-click="adicionarContato(contato)">Salvar Contato</button>
-            <button class="btn btn-danger glyphicon glyphicon-trash" ng-disabled="!isContatoSelecionado(contatos)" ng-click="deletarContatos(contatos)"></button>
+
+        
+            <button class="btn btn-success " type="submit" ng-disabled="contatoForm.$invalid" ng-click="adicionarContato(contato)">Salvar Contato</button>
+            <button class="btn btn-danger glyphicon glyphicon-trash" ng-disabled="!isContatoSelecionado(contatos)" ng-click="deletarContatos(contatos)" ng-show="contatos.length > 0"></button>
             
         </div>
     </div>
+    <div ng-include="'footer.html'"></div>
 </body>
 </html>

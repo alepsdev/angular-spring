@@ -24,3 +24,7 @@
     font-weight: bold;
     background-color: rgb(0, 59, 252);
 }
+
+.alertaCadastro {
+    background-color: #dc143c;
+}
