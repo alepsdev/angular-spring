@@ -26,6 +26,7 @@
                 <tr>
                     <th></th> 
                     <th>Nome</th>
+                    <th>Nascimento</th>
                     <th>Telefone</th>
                     <th>Operadora</th>
                     <th></th>
@@ -34,6 +35,7 @@
                     <td hidden>{{contato.id}}</td>
                     <td><input type="checkbox" ng-model="contato.selecionado"></td>
                     <td>{{contato.nome}}</td>
+                    <td>{{contato.dataNascimento | date:'dd/MM/yyyy'}} - {{contato.dataAniversario}}</td>
                     <td>{{contato.telefone}}</td>
                     <td ng-if="!contato.operadora"></td>
                     <td ng-if="contato.operadora">{{contato.operadora.nome}} ({{contato.operadora.codigo}})</td>
@@ -45,6 +47,7 @@
 
             <form name="contatoForm">
                 <input class="form-control form-control-sm" name="nome" type="text" placeholder="Nome" ng-model="contato.nome" ng-required="true" ng-minlength="5" ng-maxlength="40" required>    
+                <input class="form-control form-control-sm" type="date" name="dataAniversario" id="dataAniversario" >
                 <input class="form-control form-control-sm" name="telefone" type="text"  placeholder ="Telefone" ng-model="contato.telefone" ng-required="true" ng-minlength="8" ng-maxlength="20" ng-pattern="/^\d{4,5}-{4}$/" required>
                 <select class="form-control form-control-sm " name="operadora" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy: 'nome':reverse" ng-required="true" required>
                     <option value="">Selecione uma operadora</option>
